@@ -22,7 +22,11 @@ const sessionReducer = (state = INITIAL_STATE, action: any) => {
     case SessionActionTypes.SET_TOKEN_EXPIRY_DATE:
       return {
         ...state,
-        tokenExpiryDate: action.payload,
+        tokenExpiryDate: new Date().getTime() + action.payload,
+      };
+    case SessionActionTypes.LOGOUT:
+      return {
+        INITIAL_STATE,
       };
     default:
       return state;

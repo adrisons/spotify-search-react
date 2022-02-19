@@ -12,3 +12,6 @@ export const setTokenExpiryDate = (tokenExpiryDate: number) => ({
   type: SessionActionTypes.SET_TOKEN_EXPIRY_DATE,
   payload: tokenExpiryDate,
 });
+export const logout = () => ({
+  type: SessionActionTypes.LOGOUT,
+});

@@ -1,17 +1,19 @@
-import React from 'react';
-import './App.scss';
-import { Authorization } from './components/authorization/Authorization';
-import logo from './logo.svg';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.scss";
+import Dashboard from "./components/Dashboard";
+import LoginPage from "./components/login/LoginPage";
+import NotFoundPage from "./components/NotFoundPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Authorization />
-        
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+    </BrowserRouter>
   );
 }
 

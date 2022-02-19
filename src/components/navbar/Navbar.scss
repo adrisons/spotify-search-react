@@ -1,0 +1,25 @@
+@import 'styles/mixins';
+
+.navbar {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+    padding: 10px 20px;
+    &__title {
+        display: flex;
+        align-items: center;
+        &-logo {
+            @include resizeIcon(35px);
+            margin-right: 10px;
+        }
+        &-name {
+            font-size: 20px;
+        }
+    }
+    &__action {
+        @include removeBtnStyle();
+    }
+}

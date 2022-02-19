@@ -2,5 +2,6 @@ export const SessionActionTypes = {
     SET_LOGGED_IN: 'SET_LOGGED_IN',
     SET_ACCESS_TOKEN: 'SET_ACCESS_TOKEN',
     SET_TOKEN_EXPIRY_DATE: 'SET_TOKEN_EXPIRY_DATE',
+    LOGOUT: 'LOGOUT',
   };
   

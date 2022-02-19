@@ -14,3 +14,14 @@ export const selectTokenExpiryDate = createSelector(
   [selectSession],
   (session) => session.tokenExpiryDate
 );
+const _isValidSession = (expiryTime: number) => {
+  const currentTime = new Date().getTime();
+  const isSessionValid = currentTime < expiryTime;
+
+  return isSessionValid;
+};
+export const selectIsValidSession = createSelector(
+  [selectSession],
+  (session) =>
+    !!session.tokenExpiryDate && _isValidSession(session.tokenExpiryDate)
+);
