@@ -1,10 +1,13 @@
 import React from "react";
-import { FaSearch } from 'react-icons/fa';
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsValidSession } from "redux/session/session.selector";
 import Navbar from "./navbar/Navbar";
+import SearchForm from "./search/SearchForm";
 
+const search = (term: string) => {
+  console.log('Search triggered')
+};
 
 const Dashboard = () => {
   const isValidSession = useSelector(selectIsValidSession);
@@ -14,8 +17,7 @@ const Dashboard = () => {
       {isValidSession ? (
         <div>
           <Navbar />
-          <h1>Dashboard</h1>
-          <FaSearch/>
+          <SearchForm searchFn={search} />
         </div>
       ) : (
         <Navigate to="/login" />

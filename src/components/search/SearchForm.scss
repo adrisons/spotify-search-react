@@ -1,0 +1,26 @@
+@import "styles/mixins";
+.search {
+  width: calc(100% - 40px);
+  margin: 20px;
+  position: relative;
+  &__input {
+    color: black;
+    background-color: white;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 10px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+  }
+  &__icon {
+    @include resizeIcon(20px);
+    color: black;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  &__error {
+    margin: 10px 40px;
+  }
+}
