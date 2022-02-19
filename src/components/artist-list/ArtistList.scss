@@ -1,0 +1,7 @@
+.artist-list {
+  max-height: 250px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  margin: 20px;
+}
