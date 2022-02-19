@@ -7,8 +7,9 @@ import {
   setTokenExpiryDate
 } from "redux/session/session.actions";
 import { selectIsValidSession } from "redux/session/session.selector";
-import { getAuthorizeHref } from "../oauthConfig";
-import { getHashParams, removeHashParamsFromUrl } from "../utils/hashUtils";
+import { getAuthorizeHref } from "../../oauthConfig";
+import { getHashParams, removeHashParamsFromUrl } from "../../utils/hashUtils";
+import './Authorization.scss';
 
 const hashParams = getHashParams();
 const access_token = hashParams.access_token;
@@ -33,6 +34,7 @@ export function Authorization() {
       <div>
         {!isValidSession ? (
           <button
+            className="login-btn"
             aria-label="Log in using OAuth 2.0"
             onClick={() => window.open(getAuthorizeHref(), "_self")}
           >

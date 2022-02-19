@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsValidSession } from "redux/session/session.selector";
-import { Authorization } from "../Authorization";
+import { Authorization } from "../authorization/Authorization";
 import "./LoginPage.scss";
 
 const LoginPage = () => {
