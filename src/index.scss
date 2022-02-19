@@ -1,14 +1,16 @@
-@use './styles/common';
+@use "./styles/common";
+
 body {
   height: 100vh;
   width: 100%;
   margin: 0;
-  background-color: #121212;
   color: white;
-  font-family: 'spotify-circular', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "spotify-circular", Helvetica, Arial, sans-serif;
+  background-color: rgb(83, 83, 83);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0, #121212 100%);
+  transition: background 1s ease;
 }
+
 #root {
   position: relative;
   float: left;

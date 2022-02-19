@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Dashboard from "./components/Dashboard";
 import LoginPage from "./components/login/LoginPage";
@@ -11,7 +11,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Dashboard />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route  path="not-found" element={<NotFoundPage />} />
+          <Route  path="*" element={<Navigate to="/not-found" />} />
         </Routes>
     </BrowserRouter>
   );
