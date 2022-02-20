@@ -8,12 +8,12 @@ import NotFoundPage from "./components/NotFoundPage";
 function App() {
   return (
     <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route  path="not-found" element={<NotFoundPage />} />
-          <Route  path="*" element={<Navigate to="/not-found" />} />
-        </Routes>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/not-found" />} />
+      </Routes>
     </BrowserRouter>
   );
 }
