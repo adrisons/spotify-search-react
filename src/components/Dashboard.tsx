@@ -1,5 +1,6 @@
-import { Artist } from "model/Artist.model";
+import { Artist } from "model/Artist";
 import { SearchResultType } from "model/SearchResultType";
+import { Track } from "model/Track";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -11,11 +12,12 @@ import { spotifySearch } from "services/search/Search";
 import ArtistsList from "./artist-list/ArtistList";
 import Navbar from "./navbar/Navbar";
 import SearchForm from "./search/SearchForm";
+import TracksList from "./track-list/TrackList";
 
 const Dashboard = () => {
   const isValidSession = useSelector(selectIsValidSession);
   const accessToken = useSelector(selectAccessToken);
-  const [tracks, setTracks] = useState({});
+  const [tracks, setTracks] = useState<SearchResultType<Track>>();
   const [albums, setAlbums] = useState({});
   const [artists, setArtists] = useState<SearchResultType<Artist>>();
 
@@ -36,8 +38,13 @@ const Dashboard = () => {
       {isValidSession ? (
         <div>
           <Navbar />
-          <SearchForm searchFn={(term) => search(term)} />
-          {!!artists?.items?.length && <ArtistsList artists={artists.items} />}
+          <div className="content">
+            <SearchForm searchFn={(term) => search(term)} />
+            {!!artists?.items?.length && (
+              <ArtistsList artists={artists.items} />
+            )}
+            {!!tracks?.items?.length && <TracksList tracks={tracks.items} />}
+          </div>
         </div>
       ) : (
         <Navigate to="/login" />

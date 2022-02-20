@@ -1,7 +1,10 @@
+.artists-container {
+  margin: 20px;
+  margin-right: 0;
+}
 .artist-list {
-  max-height: 250px;
   display: flex;
   flex-direction: row;
   overflow-x: auto;
-  margin: 20px;
+  overflow-y: hidden;
 }

@@ -1,4 +1,4 @@
-import { Artist } from "model/Artist.model";
+import { Artist } from "model/Artist";
 import React from "react";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import "./ArtistCard.scss";

@@ -1,60 +1,61 @@
 @import "styles/mixins";
 .artist-card {
-    background: #181818;
-    padding: 10px;
-    min-width: 150px;
-    border-radius: 10px;
-    padding: 20px;
-    margin-right: 15px;
-    text-decoration: inherit;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    &:hover {
-      background-color: #282828;
-    }
-    &__img {
-      @include resizeIcon(92px);
-      border-radius: 50%;
-    }
-    &__tag {
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 500px;
-      color: #fff;
-      display: inline-block;
-      padding: 4px 12px;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      font-size: 0.625rem;
-      line-height: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      width: fit-content;
-    }
-    &__title {
-      margin-top: 15px;
-      margin-bottom: 0px;
-      font-size: 2rem;
-      line-height: 2.25rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      padding-bottom: 4px;
-      color: inherit;
-      word-break: break-word;
-    }
-    &:hover &__play-icon {
-      opacity: 1;
-    }
-    &__play-icon {
-      opacity: 0;
-      color: #1ed760;
-      font-size: 45px;
-      color: #1ed760;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      padding: 20px;
-    }
+  height: 250px;
+  background: #181818;
+  padding: 10px;
+  min-width: 150px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-right: 15px;
+  text-decoration: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &:hover {
+    background-color: #282828;
   }
+  &__img {
+    @include resizeIcon(92px);
+    border-radius: 50%;
+  }
+  &__tag {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 500px;
+    color: #fff;
+    display: inline-block;
+    padding: 4px 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 0.625rem;
+    line-height: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  &__title {
+    margin-top: 15px;
+    margin-bottom: 0px;
+    font-size: 2rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    padding-bottom: 4px;
+    color: inherit;
+    word-break: break-word;
+  }
+  &:hover &__play-icon {
+    opacity: 1;
+  }
+  &__play-icon {
+    opacity: 0;
+    color: #1ed760;
+    font-size: 45px;
+    color: #1ed760;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+  }
+}

@@ -1,0 +1,53 @@
+@import "styles/mixins";
+.track-card {
+  background: #181818;
+  padding: 10px;
+  border-radius: 10px;
+  height: 50px;
+  text-decoration: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+
+  &:hover {
+    background-color: #282828;
+  }
+  &__img {
+    @include resizeIcon(40px);
+    margin-right: 16px;
+  }
+
+  &__title {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  &__artist {
+    text-decoration: inherit;
+    color: #b3b3b3;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
+    &:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+  &__duration {
+    color: #b3b3b3;
+    margin-right: 16px;
+    margin-left: auto;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+}

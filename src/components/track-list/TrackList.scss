@@ -1,0 +1,9 @@
+.tracks-container {
+  margin: 20px;
+}
+.track-list {
+  max-height: 450px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
