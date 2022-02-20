@@ -22,5 +22,5 @@
       "@redux/*": ["redux/*"],
     }
   },
-  "include": ["src"]
+  "include": ["src"],
 }
