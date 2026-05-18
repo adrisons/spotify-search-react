@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import {
+  createMigrate,
   persistStore,
   persistReducer,
   FLUSH,
@@ -8,7 +9,9 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  type MigrationManifest,
   type PersistConfig,
+  type PersistedState,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import sessionReducer from "./session/sessionSlice";
@@ -19,10 +22,30 @@ const rootReducer = combineReducers({
   ui: uiReducer,
 });
 
+type PersistedRootState = Partial<ReturnType<typeof rootReducer>> & {
+  _persist?: {
+    version: number;
+    rehydrated: boolean;
+  };
+};
+
+function stripPersistedSession(state: PersistedState): PersistedState {
+  if (!state) return state;
+
+  const { session: _session, ...rest } = state as PersistedRootState;
+  return rest as PersistedState;
+}
+
+export const migrations: MigrationManifest = {
+  1: stripPersistedSession,
+};
+
 export const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
   key: "root",
   storage,
+  version: 1,
   blacklist: ["session"],
+  migrate: createMigrate(migrations, { debug: false }),
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
