@@ -1,11 +1,83 @@
-## Setting up the Spotify Web API
-To get access to the Spotify Web API we need to create an example APP in https://developer.spotify.com/dashboard/
+# Spotify Search React
 
-Once you created an APP, click on APP's *Edit Settings* button and add a *Redirect URI* `http://localhost:3000`, then create a file named `.env` in the project top level with the following content:
+A Spotify search application built with **React 19**, **Vite**, **Tailwind CSS v4**, **Redux Toolkit**, and **TypeScript**.
+
+## Architecture
+
+The project follows a **clean architecture in layers**:
+
 ```
-REACT_APP_SPOTIFY_CLIENT_ID=<YOUR_APP_CLIENT_ID>
-REACT_APP_AUTHORIZE_URL=https://accounts.spotify.com/authorize
-REACT_APP_REDIRECT_URI=http://localhost:3000
+src/
+├── domain/              # Domain models and types
+│   └── models/          # Artist, Track, PaginatedResult
+├── infrastructure/      # External integrations (API layer)
+│   ├── http/            # Generic HTTP client
+│   └── spotify/         # Spotify API & auth integration
+├── application/         # Application state and business logic
+│   └── store/           # Redux Toolkit store (session, ui)
+├── ui/                  # Presentation layer
+│   ├── components/      # Reusable presentational components
+│   └── pages/           # Page-level container components
+├── config/              # App configuration (OAuth, env)
+└── test/                # Test setup and utilities
 ```
 
-Paste the Client ID from the Spotify APP we just created.
+## Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| Framework | React 19 |
+| Build Tool | Vite 6 |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 |
+| State | Redux Toolkit + redux-persist |
+| Routing | React Router v7 |
+| Testing | Vitest + Testing Library |
+| Components | Storybook 8 |
+| Linting | ESLint 9 (flat config) |
+| Package Manager | pnpm |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- pnpm (`corepack enable` or `npm install -g pnpm`)
+- A Spotify Developer App ([create one here](https://developer.spotify.com/dashboard/))
+
+### Setup
+
+```bash
+pnpm install
+```
+
+Create a `.env` file:
+
+```
+VITE_SPOTIFY_CLIENT_ID=<YOUR_APP_CLIENT_ID>
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000
+```
+
+> **Note:** Spotify requires `http://127.0.0.1:3000` (not `localhost`) for HTTP redirect URIs. Make sure this exact URI is added in your Spotify Developer App settings.
+
+### Development
+
+```bash
+pnpm dev          # Start Vite dev server (port 3000)
+pnpm storybook    # Start Storybook (port 6006)
+```
+
+### Testing & Quality
+
+```bash
+pnpm test         # Run tests with Vitest
+pnpm test:watch   # Run tests in watch mode
+pnpm lint         # Run ESLint
+```
+
+### Build
+
+```bash
+pnpm build        # TypeScript check + Vite production build
+pnpm preview      # Preview production build
+```
