@@ -14,7 +14,10 @@ A `.env` file at the project root with Spotify OAuth credentials is required. Se
 The Cursor Cloud secret is named `REACT_APP_SPOTIFY_CLIENT_ID` — map it to the Vite env var in `.env`:
 ```
 VITE_SPOTIFY_CLIENT_ID=${REACT_APP_SPOTIFY_CLIENT_ID}
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000
 ```
+
+**Important:** Spotify requires `http://127.0.0.1:3000` (not `localhost`) for HTTP redirect URIs. This must also be configured in the Spotify Developer App dashboard under "Redirect URIs".
 
 ### Package manager
 
@@ -43,6 +46,8 @@ Path aliases are configured in both `tsconfig.json` and `vite.config.ts`: `@doma
 
 ### Key caveats
 
+- **OAuth uses PKCE flow** (`response_type=code` + `code_challenge`). The old implicit grant (`response_type=token`) no longer works with Spotify.
+- Dev server binds to `127.0.0.1:3000` (not `localhost`) to match the Spotify redirect URI requirement.
 - Storybook uses `@storybook/react-vite` — shares the Vite config for path aliases.
 - Tailwind v4 uses the `@tailwindcss/vite` plugin (no `tailwind.config.js` needed).
 - Redux Toolkit is used instead of legacy Redux for type-safe, concise slices.

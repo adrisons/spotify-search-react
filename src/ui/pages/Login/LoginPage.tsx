@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { FaSpotify } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@application/store/hooks";
@@ -9,31 +9,48 @@ import {
   setTokenExpiryDate,
 } from "@application/store/session/sessionSlice";
 import {
-  getHashParams,
-  removeHashParamsFromUrl,
+  getQueryParams,
+  cleanUrlParams,
+  exchangeCodeForToken,
+  generateCodeChallenge,
 } from "@infrastructure/spotify";
-import { getAuthorizeHref } from "@config/oauth";
+import { buildAuthorizeUrl, getClientId, getRedirectUri } from "@config/oauth";
 
 export function LoginPage() {
   const isValidSession = useAppSelector(selectIsValidSession);
   const dispatch = useAppDispatch();
+  const [isExchanging, setIsExchanging] = useState(false);
 
   useEffect(() => {
-    const hashParams = getHashParams();
-    const accessToken = hashParams["access_token"];
-    const expiresIn = hashParams["expires_in"];
+    const params = getQueryParams();
+    const code = params["code"];
 
-    if (accessToken) {
-      removeHashParamsFromUrl();
-      dispatch(setLoggedIn(true));
-      dispatch(setAccessToken(accessToken));
-      dispatch(setTokenExpiryDate(Number(expiresIn)));
+    if (code && !isExchanging) {
+      setIsExchanging(true);
+      cleanUrlParams();
+
+      exchangeCodeForToken(code, getClientId(), getRedirectUri()).then(
+        (tokenData) => {
+          if (tokenData) {
+            dispatch(setLoggedIn(true));
+            dispatch(setAccessToken(tokenData.access_token));
+            dispatch(setTokenExpiryDate(tokenData.expires_in * 1000));
+          }
+          setIsExchanging(false);
+        }
+      );
     }
-  }, [dispatch]);
+  }, [dispatch, isExchanging]);
 
   if (isValidSession) {
     return <Navigate to="/" />;
   }
+
+  const handleLogin = async () => {
+    const codeChallenge = await generateCodeChallenge();
+    const authorizeUrl = buildAuthorizeUrl(codeChallenge);
+    window.location.href = authorizeUrl;
+  };
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-zinc-700 to-zinc-950">
@@ -45,13 +62,19 @@ export function LoginPage() {
         <p className="text-gray-400 text-sm text-center max-w-[240px]">
           Sign in to search for your favourite artists, albums and tracks.
         </p>
-        <button
-          aria-label="Log in using Spotify"
-          onClick={() => window.open(getAuthorizeHref(), "_self")}
-          className="cursor-pointer rounded-full bg-spotify-green px-8 py-3 text-base font-bold text-black transition-all duration-200 hover:bg-spotify-green-light hover:scale-[1.03] hover:shadow-lg hover:shadow-spotify-green/20 active:scale-[0.98] border-none focus-ring"
-        >
-          Log in with Spotify
-        </button>
+        {isExchanging ? (
+          <p className="text-gray-300 text-sm animate-pulse">
+            Signing in...
+          </p>
+        ) : (
+          <button
+            aria-label="Log in using Spotify"
+            onClick={handleLogin}
+            className="cursor-pointer rounded-full bg-spotify-green px-8 py-3 text-base font-bold text-black transition-all duration-200 hover:bg-spotify-green-light hover:scale-[1.03] hover:shadow-lg hover:shadow-spotify-green/20 active:scale-[0.98] border-none focus-ring"
+          >
+            Log in with Spotify
+          </button>
+        )}
       </div>
     </main>
   );

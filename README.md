@@ -55,9 +55,10 @@ Create a `.env` file:
 
 ```
 VITE_SPOTIFY_CLIENT_ID=<YOUR_APP_CLIENT_ID>
-VITE_SPOTIFY_AUTHORIZE_URL=https://accounts.spotify.com/authorize
-VITE_SPOTIFY_REDIRECT_URI=http://localhost:3000
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000
 ```
+
+> **Note:** Spotify requires `http://127.0.0.1:3000` (not `localhost`) for HTTP redirect URIs. Make sure this exact URI is added in your Spotify Developer App settings.
 
 ### Development
 
