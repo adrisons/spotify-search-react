@@ -11,6 +11,11 @@ Node 22 is set as default via nvm (`nvm alias default 22`).
 
 A `.env` file at the project root with Spotify OAuth credentials is required. See `README.md` for details. Without a valid `VITE_SPOTIFY_CLIENT_ID`, the app loads but OAuth login won't complete.
 
+The Cursor Cloud secret is named `REACT_APP_SPOTIFY_CLIENT_ID` — map it to the Vite env var in `.env`:
+```
+VITE_SPOTIFY_CLIENT_ID=${REACT_APP_SPOTIFY_CLIENT_ID}
+```
+
 ### Commands
 
 | Command | Description |
