@@ -8,20 +8,22 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  type PersistConfig,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import sessionReducer from "./session/sessionSlice";
 import uiReducer from "./ui/uiSlice";
 
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
 const rootReducer = combineReducers({
   session: sessionReducer,
   ui: uiReducer,
 });
+
+export const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
+  key: "root",
+  storage,
+  blacklist: ["session"],
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
