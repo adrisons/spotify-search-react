@@ -16,16 +16,20 @@ The Cursor Cloud secret is named `REACT_APP_SPOTIFY_CLIENT_ID` — map it to the
 VITE_SPOTIFY_CLIENT_ID=${REACT_APP_SPOTIFY_CLIENT_ID}
 ```
 
+### Package manager
+
+This project uses **pnpm** (lockfile: `pnpm-lock.yaml`). Do not use npm or yarn.
+
 ### Commands
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Vite dev server on port 3000 |
-| `npm run build` | TypeScript check + production build |
-| `npm run test` | Run Vitest (single run) |
-| `npm run test:watch` | Vitest in watch mode |
-| `npm run lint` | ESLint flat config |
-| `npm run storybook` | Storybook on port 6006 |
+| `pnpm dev` | Vite dev server on port 3000 |
+| `pnpm build` | TypeScript check + production build |
+| `pnpm test` | Run Vitest (single run) |
+| `pnpm test:watch` | Vitest in watch mode |
+| `pnpm lint` | ESLint flat config |
+| `pnpm storybook` | Storybook on port 6006 |
 
 ### Architecture
 

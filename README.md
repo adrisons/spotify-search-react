@@ -35,18 +35,20 @@ src/
 | Testing | Vitest + Testing Library |
 | Components | Storybook 8 |
 | Linting | ESLint 9 (flat config) |
+| Package Manager | pnpm |
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 22+
+- pnpm (`corepack enable` or `npm install -g pnpm`)
 - A Spotify Developer App ([create one here](https://developer.spotify.com/dashboard/))
 
 ### Setup
 
 ```bash
-npm install
+pnpm install
 ```
 
 Create a `.env` file:
@@ -60,21 +62,21 @@ VITE_SPOTIFY_REDIRECT_URI=http://localhost:3000
 ### Development
 
 ```bash
-npm run dev          # Start Vite dev server (port 3000)
-npm run storybook    # Start Storybook (port 6006)
+pnpm dev          # Start Vite dev server (port 3000)
+pnpm storybook    # Start Storybook (port 6006)
 ```
 
 ### Testing & Quality
 
 ```bash
-npm run test         # Run tests with Vitest
-npm run test:watch   # Run tests in watch mode
-npm run lint         # Run ESLint
+pnpm test         # Run tests with Vitest
+pnpm test:watch   # Run tests in watch mode
+pnpm lint         # Run ESLint
 ```
 
 ### Build
 
 ```bash
-npm run build        # TypeScript check + Vite production build
-npm run preview      # Preview production build
+pnpm build        # TypeScript check + Vite production build
+pnpm preview      # Preview production build
 ```
