@@ -18,8 +18,11 @@ const NotFoundPage = lazy(() =>
 
 function PageFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950">
-      <Skeleton className="h-10 w-48" />
+    <div className="flex min-h-screen items-center justify-center bg-zinc-950" role="status" aria-label="Loading page">
+      <div className="flex flex-col items-center gap-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <Skeleton className="h-4 w-32" />
+      </div>
     </div>
   );
 }

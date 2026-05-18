@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 
 export function NotFoundPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-white">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
+    <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-white">
+      <div className="text-center glass rounded-2xl p-10 animate-scale-in shadow-2xl shadow-black/30">
+        <h1 className="text-6xl font-bold mb-2 text-spotify-green">404</h1>
         <p className="text-gray-400 mb-6">Page not found</p>
         <Link
           to="/"
-          className="text-green-500 hover:text-green-400 underline"
+          className="text-spotify-green hover:text-spotify-green-light underline transition-colors duration-200 focus-ring rounded"
         >
           Go to Home Page
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

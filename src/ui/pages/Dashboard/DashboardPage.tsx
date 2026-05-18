@@ -56,38 +56,44 @@ export function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-800 to-zinc-950 text-white">
       <Navbar onLogout={() => dispatch(logout())} />
-      <main className="mx-auto max-w-7xl">
+      <main className="mx-auto max-w-7xl pb-8" aria-label="Search results">
         <SearchForm onSearch={handleSearch} />
 
-        {isLoading && <SearchResultsSkeleton />}
+        <div aria-live="polite" aria-atomic="true">
+          {isLoading && <SearchResultsSkeleton />}
 
-        {!isLoading && hasArtists && (
-          <section className="px-5 mt-4">
-            <h2 className="text-xl font-bold mb-3">Artists</h2>
-            <div className="flex overflow-x-auto pb-4">
-              {artists!.items.map((artist) => (
-                <ArtistCard key={artist.id} artist={artist} />
-              ))}
-            </div>
-          </section>
-        )}
+          {!isLoading && hasArtists && (
+            <section className="px-5 mt-4 animate-fade-in" aria-label="Artists">
+              <h2 className="text-xl font-bold mb-3">Artists</h2>
+              <div className="flex overflow-x-auto pb-4" role="list">
+                {artists!.items.map((artist, i) => (
+                  <div key={artist.id} role="listitem" className="animate-slide-up" style={{ animationDelay: `${i * 50}ms` }}>
+                    <ArtistCard artist={artist} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-        {!isLoading && hasTracks && (
-          <section className="px-5 mt-6">
-            <h2 className="text-xl font-bold mb-3">Tracks</h2>
-            <div className="flex flex-col gap-1 max-h-[450px] overflow-y-auto">
-              {tracks!.items.map((track) => (
-                <TrackCard key={track.id} track={track} />
-              ))}
-            </div>
-          </section>
-        )}
+          {!isLoading && hasTracks && (
+            <section className="px-5 mt-6 animate-fade-in" style={{ animationDelay: "100ms" }} aria-label="Tracks">
+              <h2 className="text-xl font-bold mb-3">Tracks</h2>
+              <div className="flex flex-col gap-0.5 max-h-[450px] overflow-y-auto rounded-xl glass p-1" role="list">
+                {tracks!.items.map((track, i) => (
+                  <div key={track.id} role="listitem" className="animate-slide-up" style={{ animationDelay: `${i * 30}ms` }}>
+                    <TrackCard track={track} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-        {noResults && (
-          <p className="px-5 mt-8 text-center text-gray-400">
-            No results found. Try a different search term.
-          </p>
-        )}
+          {noResults && (
+            <p className="px-5 mt-8 text-center text-gray-400 animate-fade-in">
+              No results found. Try a different search term.
+            </p>
+          )}
+        </div>
       </main>
     </div>
   );
