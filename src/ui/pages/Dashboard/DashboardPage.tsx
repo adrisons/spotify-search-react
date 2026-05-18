@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@application/store/hooks";
 import {
@@ -24,22 +24,28 @@ export function DashboardPage() {
   const [artists, setArtists] = useState<PaginatedResult<Artist>>();
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const latestSearchId = useRef(0);
 
   const handleSearch = useCallback(
     async (term: string) => {
       if (!accessToken) return;
+      const searchId = latestSearchId.current + 1;
+      latestSearchId.current = searchId;
       setIsLoading(true);
       setHasSearched(true);
       dispatch(addSearchTerm(term));
 
       try {
         const result = await searchSpotify(term, accessToken);
+        if (searchId !== latestSearchId.current) return;
         if (result) {
           setTracks(result.tracks);
           setArtists(result.artists);
         }
       } finally {
-        setIsLoading(false);
+        if (searchId === latestSearchId.current) {
+          setIsLoading(false);
+        }
       }
     },
     [accessToken, dispatch]
