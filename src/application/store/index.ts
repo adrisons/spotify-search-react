@@ -32,7 +32,8 @@ type PersistedRootState = Partial<ReturnType<typeof rootReducer>> & {
 function stripPersistedSession(state: PersistedState): PersistedState {
   if (!state) return state;
 
-  const { session: _session, ...rest } = state as PersistedRootState;
+  const rest = { ...(state as PersistedRootState) };
+  delete rest.session;
   return rest as PersistedState;
 }
 
