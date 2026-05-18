@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PersistedState } from "redux-persist";
-import { migrations, persistConfig } from ".";
+import { persistConfig } from ".";
 
 describe("store persistence", () => {
   it("does not persist OAuth session data", () => {
@@ -28,7 +28,6 @@ describe("store persistence", () => {
       persistConfig.version!
     );
 
-    expect(migrations[1](legacyPersistedState)).not.toHaveProperty("session");
     expect(migratedState).not.toHaveProperty("session");
     expect(migratedState).toMatchObject({
       ui: {
