@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { useDebounce } from "@ui/hooks/useDebounce";
 
 interface SearchFormProps {
   onSearch: (term: string) => void;
+  debounceMs?: number;
 }
 
-export function SearchForm({ onSearch }: SearchFormProps) {
+export function SearchForm({ onSearch, debounceMs = 400 }: SearchFormProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const debouncedTerm = useDebounce(searchTerm, debounceMs);
+
+  useEffect(() => {
+    if (debouncedTerm.trim()) {
+      onSearch(debouncedTerm);
+    }
+  }, [debouncedTerm, onSearch]);
 
   const handleInputChange = (value: string) => {
     setErrorMsg("");

@@ -22,16 +22,20 @@ describe("ArtistCard", () => {
     expect(screen.getByText("Rosalia")).toBeInTheDocument();
   });
 
-  it("should render artist image", () => {
+  it("should render artist image with lazy loading", () => {
     render(<ArtistCard artist={ARTIST_MOCK} />);
     const img = screen.getByAltText("Rosalia");
     expect(img).toHaveAttribute("src", ARTIST_MOCK.images[0]!.url);
+    expect(img).toHaveAttribute("loading", "lazy");
   });
 
   it("should link to Spotify page", () => {
     render(<ArtistCard artist={ARTIST_MOCK} />);
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", ARTIST_MOCK.external_urls.spotify);
+    const links = screen.getAllByRole("link");
+    expect(links[0]).toHaveAttribute(
+      "href",
+      ARTIST_MOCK.external_urls.spotify
+    );
   });
 
   it("should display Artist tag", () => {

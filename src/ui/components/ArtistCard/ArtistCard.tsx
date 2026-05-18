@@ -1,11 +1,13 @@
+import { memo } from "react";
 import type { Artist } from "@domain/models";
 import { BsFillPlayCircleFill } from "react-icons/bs";
+import { LazyImage } from "@ui/components/LazyImage";
 
 interface ArtistCardProps {
   artist: Artist;
 }
 
-export function ArtistCard({ artist }: ArtistCardProps) {
+export const ArtistCard = memo(function ArtistCard({ artist }: ArtistCardProps) {
   const imageUrl = artist.images?.[0]?.url ?? "/vite.svg";
 
   return (
@@ -15,7 +17,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
       rel="noopener noreferrer"
       className="group relative flex min-w-[150px] flex-col rounded-lg bg-zinc-900 p-5 mr-4 text-inherit no-underline hover:bg-zinc-800 transition-colors"
     >
-      <img
+      <LazyImage
         className="h-24 w-24 rounded-full object-cover"
         src={imageUrl}
         alt={artist.name}
@@ -29,4 +31,4 @@ export function ArtistCard({ artist }: ArtistCardProps) {
       <BsFillPlayCircleFill className="absolute bottom-5 right-5 text-green-500 text-4xl opacity-0 group-hover:opacity-100 transition-opacity" />
     </a>
   );
-}
+});

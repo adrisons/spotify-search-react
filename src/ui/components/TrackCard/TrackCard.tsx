@@ -1,4 +1,6 @@
+import { memo } from "react";
 import type { Track } from "@domain/models";
+import { LazyImage } from "@ui/components/LazyImage";
 
 interface TrackCardProps {
   track: Track;
@@ -12,7 +14,7 @@ function formatDuration(ms: number): string {
     : `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }
 
-export function TrackCard({ track }: TrackCardProps) {
+export const TrackCard = memo(function TrackCard({ track }: TrackCardProps) {
   const imageUrl = track.album?.images?.[0]?.url ?? "/vite.svg";
   const primaryArtist = track.artists[0];
 
@@ -23,7 +25,7 @@ export function TrackCard({ track }: TrackCardProps) {
       rel="noopener noreferrer"
       className="flex items-center rounded-lg bg-zinc-900 p-2.5 text-inherit no-underline hover:bg-zinc-800 transition-colors"
     >
-      <img
+      <LazyImage
         className="h-10 w-10 mr-4 rounded"
         src={imageUrl}
         alt={track.name}
@@ -47,4 +49,4 @@ export function TrackCard({ track }: TrackCardProps) {
       </span>
     </a>
   );
-}
+});
