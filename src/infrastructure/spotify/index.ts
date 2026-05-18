@@ -4,6 +4,7 @@ export {
   getQueryParams,
   cleanUrlParams,
   exchangeCodeForToken,
+  refreshAccessToken,
 } from "./spotifyAuth";
 export type { TokenResponse } from "./spotifyAuth";
 export { generateCodeChallenge, getStoredCodeVerifier } from "./pkce";

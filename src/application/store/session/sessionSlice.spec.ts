@@ -2,7 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import sessionReducer, {
   setLoggedIn,
   setAccessToken,
+  setRefreshToken,
   setTokenExpiryDate,
+  setSession,
+  applyTokenRefresh,
   logout,
   selectIsValidSession,
 } from "./sessionSlice";
@@ -11,6 +14,7 @@ describe("sessionSlice", () => {
   const initialState = {
     loggedIn: false,
     accessToken: undefined,
+    refreshToken: undefined,
     tokenExpiryDate: undefined,
   };
 
@@ -30,6 +34,11 @@ describe("sessionSlice", () => {
     expect(state.accessToken).toBe("token-123");
   });
 
+  it("should handle setRefreshToken", () => {
+    const state = sessionReducer(initialState, setRefreshToken("refresh-123"));
+    expect(state.refreshToken).toBe("refresh-123");
+  });
+
   it("should handle setTokenExpiryDate", () => {
     vi.spyOn(Date, "now").mockReturnValue(1000);
     const state = sessionReducer(initialState, setTokenExpiryDate(3600000));
@@ -37,10 +46,69 @@ describe("sessionSlice", () => {
     vi.restoreAllMocks();
   });
 
+  it("should handle setSession", () => {
+    vi.spyOn(Date, "now").mockReturnValue(1000);
+    const state = sessionReducer(
+      initialState,
+      setSession({
+        accessToken: "access",
+        refreshToken: "refresh",
+        expiresInMs: 3600000,
+      })
+    );
+    expect(state).toEqual({
+      loggedIn: true,
+      accessToken: "access",
+      refreshToken: "refresh",
+      tokenExpiryDate: 3601000,
+    });
+    vi.restoreAllMocks();
+  });
+
+  it("should handle applyTokenRefresh and keep refresh token when omitted", () => {
+    vi.spyOn(Date, "now").mockReturnValue(1000);
+    const state = sessionReducer(
+      {
+        loggedIn: true,
+        accessToken: "old-access",
+        refreshToken: "refresh",
+        tokenExpiryDate: 500,
+      },
+      applyTokenRefresh({
+        accessToken: "new-access",
+        expiresInMs: 3600000,
+      })
+    );
+    expect(state.accessToken).toBe("new-access");
+    expect(state.refreshToken).toBe("refresh");
+    expect(state.tokenExpiryDate).toBe(3601000);
+    vi.restoreAllMocks();
+  });
+
+  it("should update refresh token when provided", () => {
+    vi.spyOn(Date, "now").mockReturnValue(1000);
+    const state = sessionReducer(
+      {
+        loggedIn: true,
+        accessToken: "old-access",
+        refreshToken: "old-refresh",
+        tokenExpiryDate: 500,
+      },
+      applyTokenRefresh({
+        accessToken: "new-access",
+        expiresInMs: 3600000,
+        refreshToken: "new-refresh",
+      })
+    );
+    expect(state.refreshToken).toBe("new-refresh");
+    vi.restoreAllMocks();
+  });
+
   it("should handle logout", () => {
     const loggedInState = {
       loggedIn: true,
       accessToken: "token",
+      refreshToken: "refresh",
       tokenExpiryDate: 99999999999,
     };
     const state = sessionReducer(loggedInState, logout());

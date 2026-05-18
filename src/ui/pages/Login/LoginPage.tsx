@@ -4,9 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@application/store/hooks";
 import {
   selectIsValidSession,
-  setLoggedIn,
-  setAccessToken,
-  setTokenExpiryDate,
+  setSession,
 } from "@application/store/session/sessionSlice";
 import {
   getQueryParams,
@@ -33,10 +31,14 @@ export function LoginPage() {
 
     exchangeCodeForToken(code, getClientId(), getRedirectUri()).then(
       (tokenData) => {
-        if (tokenData) {
-          dispatch(setLoggedIn(true));
-          dispatch(setAccessToken(tokenData.access_token));
-          dispatch(setTokenExpiryDate(tokenData.expires_in * 1000));
+        if (tokenData?.refresh_token) {
+          dispatch(
+            setSession({
+              accessToken: tokenData.access_token,
+              refreshToken: tokenData.refresh_token,
+              expiresInMs: tokenData.expires_in * 1000,
+            })
+          );
           cleanUrlParams();
         }
         setIsExchanging(false);

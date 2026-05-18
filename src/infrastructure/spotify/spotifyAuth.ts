@@ -19,8 +19,38 @@ export interface TokenResponse {
   access_token: string;
   token_type: string;
   expires_in: number;
-  refresh_token: string;
+  refresh_token?: string;
   scope: string;
+}
+
+export async function refreshAccessToken(
+  refreshToken: string,
+  clientId: string
+): Promise<TokenResponse | null> {
+  try {
+    const response = await fetch(TOKEN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        client_id: clientId,
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("Token refresh failed:", error);
+      return null;
+    }
+
+    return (await response.json()) as TokenResponse;
+  } catch (error) {
+    console.error("Token refresh error:", error);
+    return null;
+  }
 }
 
 export async function exchangeCodeForToken(

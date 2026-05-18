@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, combineReducers, createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -11,8 +11,10 @@ import {
   type PersistConfig,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import sessionReducer from "./session/sessionSlice";
+import sessionReducer, { logout } from "./session/sessionSlice";
 import uiReducer from "./ui/uiSlice";
+
+const listenerMiddleware = createListenerMiddleware();
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -22,7 +24,6 @@ const rootReducer = combineReducers({
 export const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
   key: "root",
   storage,
-  blacklist: ["session"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -34,10 +35,17 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).prepend(listenerMiddleware.middleware),
 });
 
 export const persistor = persistStore(store);
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(logout),
+  effect: async () => {
+    await persistor.purge();
+  },
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

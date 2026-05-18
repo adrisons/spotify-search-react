@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Skeleton } from "@ui/components/Skeleton";
+import { SessionBootstrap } from "@ui/providers/SessionBootstrap";
 
 const LoginPage = lazy(() =>
   import("@ui/pages/Login/LoginPage").then((m) => ({ default: m.LoginPage }))
@@ -56,7 +57,9 @@ function AppRoutes() {
 export function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <SessionBootstrap>
+        <AppRoutes />
+      </SessionBootstrap>
     </BrowserRouter>
   );
 }
