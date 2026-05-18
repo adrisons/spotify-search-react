@@ -48,22 +48,7 @@ function searchResult(trackName: string): SpotifySearchResponse {
       href: "",
       items: [
         {
-          artists: [
-            {
-              external_urls: {
-                spotify: "https://open.spotify.com/artist/artist-1",
-              },
-              followers: { href: "", total: 0 },
-              genres: [],
-              href: "",
-              id: "artist-1",
-              images: [],
-              name: "Artist",
-              popularity: 0,
-              type: "artist",
-              uri: "spotify:artist:artist-1",
-            },
-          ],
+          artists: [],
           explicit: false,
           duration_ms: 180000,
           album: { images: [] },
