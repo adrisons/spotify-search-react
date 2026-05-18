@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, memo } from "react";
+import { useState, useCallback, useEffect, useRef, memo } from "react";
 import { SPOTIFY_ICON } from "@config/assets";
 import { Skeleton } from "@ui/components/Skeleton";
 
@@ -15,6 +15,7 @@ export const LazyImage = memo(function LazyImage({
   className = "",
   skeletonClassName,
 }: LazyImageProps) {
+  const imgRef = useRef<HTMLImageElement>(null);
   const [displaySrc, setDisplaySrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -24,6 +25,13 @@ export const LazyImage = memo(function LazyImage({
     setLoaded(false);
     setFailed(false);
   }, [src]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [displaySrc]);
 
   const handleLoad = useCallback(() => setLoaded(true), []);
   const handleError = useCallback(() => {
@@ -43,9 +51,9 @@ export const LazyImage = memo(function LazyImage({
       )}
       {!failed ? (
         <img
+          ref={imgRef}
           src={displaySrc}
           alt={alt}
-          loading="lazy"
           decoding="async"
           onLoad={handleLoad}
           onError={handleError}

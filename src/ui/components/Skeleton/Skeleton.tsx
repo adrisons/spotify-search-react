@@ -1,4 +1,10 @@
 import { memo } from "react";
+import { Carousel } from "@ui/components/Carousel";
+import {
+  artistCardSizeClass,
+  artistCarouselItemClass,
+} from "@ui/components/ArtistCard/artistCardStyles";
+import { cn } from "@ui/lib/utils";
 
 interface SkeletonProps {
   className?: string;
@@ -7,7 +13,7 @@ interface SkeletonProps {
 export const Skeleton = memo(function Skeleton({ className = "" }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse rounded bg-white/[0.08] ${className}`}
+      className={`animate-pulse rounded bg-white/[0.06] ${className}`}
       role="status"
       aria-label="Loading"
     />
@@ -16,10 +22,15 @@ export const Skeleton = memo(function Skeleton({ className = "" }: SkeletonProps
 
 export function ArtistCardSkeleton() {
   return (
-    <div className="flex min-w-[150px] flex-col rounded-xl glass p-5 mr-4">
-      <Skeleton className="h-24 w-24 rounded-full" />
-      <Skeleton className="mt-4 h-7 w-28" />
-      <Skeleton className="mt-2 h-5 w-16 rounded-full" />
+    <div
+      className={cn(
+        artistCardSizeClass,
+        "surface-card flex flex-col p-5"
+      )}
+    >
+      <Skeleton className="h-24 w-24 shrink-0 rounded-full" />
+      <Skeleton className="mt-4 h-10 w-full" />
+      <Skeleton className="mt-auto h-5 w-16 rounded-full" />
     </div>
   );
 }
@@ -39,18 +50,20 @@ export function TrackCardSkeleton() {
 
 export function SearchResultsSkeleton() {
   return (
-    <div className="mx-auto max-w-7xl" role="status" aria-label="Loading search results">
-      <section className="px-5 mt-4">
-        <Skeleton className="h-6 w-20 mb-3" />
-        <div className="flex overflow-x-auto pb-4">
+    <div role="status" aria-label="Loading search results">
+      <section className="layout-section">
+        <Skeleton className="mb-4 h-3 w-16" />
+        <Carousel ariaLabel="Loading artists">
           {Array.from({ length: 5 }, (_, i) => (
-            <ArtistCardSkeleton key={i} />
+            <div key={i} className={artistCarouselItemClass}>
+              <ArtistCardSkeleton />
+            </div>
           ))}
-        </div>
+        </Carousel>
       </section>
-      <section className="px-5 mt-6">
-        <Skeleton className="h-6 w-20 mb-3" />
-        <div className="flex flex-col gap-0.5 rounded-xl glass p-1">
+      <section className="layout-section">
+        <Skeleton className="mb-4 h-3 w-16" />
+        <div className="surface-panel flex flex-col gap-0.5 p-1.5">
           {Array.from({ length: 6 }, (_, i) => (
             <TrackCardSkeleton key={i} />
           ))}

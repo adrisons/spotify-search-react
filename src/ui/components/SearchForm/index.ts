@@ -1,1 +1,1 @@
-export { SearchForm } from "./SearchForm";
+export { SearchForm, type SearchFormHandle } from "./SearchForm";

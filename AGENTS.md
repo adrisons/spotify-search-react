@@ -74,6 +74,44 @@ Path aliases (in `tsconfig.json` and `vite.config.ts`): `@domain/*`, `@infrastru
 
 **Layer rules for agents:** keep dependencies pointing inward (ui → application → infrastructure → domain). Do not import UI from domain or infrastructure from ui.
 
+## Visual style guide
+
+Dark glassmorphism over `GradientBackground`. Tokens and utilities live in `src/index.css`; reuse them instead of ad-hoc Tailwind for typography and surfaces.
+
+### Typography hierarchy (largest → smallest)
+
+| Level | Utility | Use |
+| ----- | ------- | --- |
+| Display | `type-display` | Page titles (login, hero) — gradient, `text-2xl` |
+| Brand | `type-brand` | App name in navbar — gradient, `text-lg` |
+| Section | `type-section` | Result group labels (`Artists`, `Tracks`) — uppercase, muted, **not** gradient |
+| Card title | `type-card-title` | Primary label on cards (e.g. artist name) |
+| Title | `type-title` | Row primary text (e.g. track name) |
+| Body | `type-body` | Supporting copy, buttons |
+| Caption / muted | `type-caption`, `type-muted` | Metadata, duration, empty states |
+
+**Rule:** only display and brand use `text-gradient`. Section headings must use `type-section` so they sit below the brand in the hierarchy.
+
+### Surface elevation (top → bottom)
+
+| Level | Utility | Use |
+| ----- | ------- | --- |
+| Chrome | `surface-chrome` | Sticky navbar (`glass-strong`) |
+| Panel | `surface-panel` | Grouped content (track list, login card) |
+| Card | `surface-card` | Repeatable items (artist cards) |
+| Control | `surface-control` | Inputs, secondary buttons |
+
+Do not put `glass-crystal` on every element; reserve the strongest glass for one focal panel per view.
+
+### Layout
+
+- `layout-page` — horizontal padding + `max-w-7xl` centering (navbar + main).
+- `layout-section` — vertical spacing between result blocks (`mt-8`, `first:mt-6`).
+
+### Accent color
+
+- `spotify-green` / `spotify-green-light` for brand icon, focus rings, primary CTA, and hover accents on links — not for all headings.
+
 ## Key caveats
 
 - **OAuth uses PKCE** (`response_type=code` + `code_challenge`). The implicit grant (`response_type=token`) no longer works with Spotify.
