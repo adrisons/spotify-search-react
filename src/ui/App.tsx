@@ -6,6 +6,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
+import { GradientBackground } from "@ui/components/GradientBackground";
 import { Skeleton } from "@ui/components/Skeleton";
 import { SessionBootstrap } from "@ui/providers/SessionBootstrap";
 
@@ -25,7 +26,7 @@ const NotFoundPage = lazy(() =>
 
 function PageFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950" role="status" aria-label="Loading page">
+    <div className="relative flex min-h-screen items-center justify-center" role="status" aria-label="Loading page">
       <div className="flex flex-col items-center gap-4">
         <Skeleton className="h-12 w-12 rounded-full" />
         <Skeleton className="h-4 w-32" />
@@ -57,6 +58,7 @@ function AppRoutes() {
 export function App() {
   return (
     <BrowserRouter>
+      <GradientBackground />
       <SessionBootstrap>
         <AppRoutes />
       </SessionBootstrap>
