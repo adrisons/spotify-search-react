@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { FaSpotify } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@application/store/hooks";
@@ -20,27 +20,29 @@ export function LoginPage() {
   const isValidSession = useAppSelector(selectIsValidSession);
   const dispatch = useAppDispatch();
   const [isExchanging, setIsExchanging] = useState(false);
+  const hasStartedExchange = useRef(false);
 
   useEffect(() => {
     const params = getQueryParams();
     const code = params["code"];
 
-    if (code && !isExchanging) {
-      setIsExchanging(true);
-      cleanUrlParams();
+    if (!code || hasStartedExchange.current) return;
 
-      exchangeCodeForToken(code, getClientId(), getRedirectUri()).then(
-        (tokenData) => {
-          if (tokenData) {
-            dispatch(setLoggedIn(true));
-            dispatch(setAccessToken(tokenData.access_token));
-            dispatch(setTokenExpiryDate(tokenData.expires_in * 1000));
-          }
-          setIsExchanging(false);
+    hasStartedExchange.current = true;
+    setIsExchanging(true);
+
+    exchangeCodeForToken(code, getClientId(), getRedirectUri()).then(
+      (tokenData) => {
+        if (tokenData) {
+          dispatch(setLoggedIn(true));
+          dispatch(setAccessToken(tokenData.access_token));
+          dispatch(setTokenExpiryDate(tokenData.expires_in * 1000));
+          cleanUrlParams();
         }
-      );
-    }
-  }, [dispatch, isExchanging]);
+        setIsExchanging(false);
+      }
+    );
+  }, [dispatch]);
 
   if (isValidSession) {
     return <Navigate to="/" />;

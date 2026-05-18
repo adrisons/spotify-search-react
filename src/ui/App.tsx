@@ -1,5 +1,11 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Skeleton } from "@ui/components/Skeleton";
 
 const LoginPage = lazy(() =>
@@ -27,17 +33,30 @@ function PageFallback() {
   );
 }
 
+function AppRoutes() {
+  const location = useLocation();
+  const hasOAuthCode = new URLSearchParams(location.search).has("code");
+
+  if (hasOAuthCode && location.pathname !== "/login") {
+    return <Navigate to={`/login${location.search}`} replace />;
+  }
+
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/not-found" />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
 export function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<PageFallback />}>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/not-found" element={<NotFoundPage />} />
-          <Route path="*" element={<Navigate to="/not-found" />} />
-        </Routes>
-      </Suspense>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

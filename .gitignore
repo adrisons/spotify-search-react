@@ -5,6 +5,12 @@ node_modules/
 dist/
 storybook-static/
 
+# local caches
+.pnpm-store/
+.vite/
+.cache/
+*.tsbuildinfo
+
 # env files
 .env
 .env.local
