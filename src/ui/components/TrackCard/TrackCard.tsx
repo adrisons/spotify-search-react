@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { Track } from "@domain/models";
+import { SPOTIFY_ICON } from "@config/assets";
 import { LazyImage } from "@ui/components/LazyImage";
 
 interface TrackCardProps {
@@ -15,7 +16,7 @@ function formatDuration(ms: number): string {
 }
 
 export const TrackCard = memo(function TrackCard({ track }: TrackCardProps) {
-  const imageUrl = track.album?.images?.[0]?.url ?? "/vite.svg";
+  const imageUrl = track.album?.images?.[0]?.url ?? SPOTIFY_ICON;
   const primaryArtist = track.artists[0];
 
   return (

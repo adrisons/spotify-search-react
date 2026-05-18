@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { Artist } from "@domain/models";
+import { SPOTIFY_ICON } from "@config/assets";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { LazyImage } from "@ui/components/LazyImage";
 
@@ -8,7 +9,7 @@ interface ArtistCardProps {
 }
 
 export const ArtistCard = memo(function ArtistCard({ artist }: ArtistCardProps) {
-  const imageUrl = artist.images?.[0]?.url ?? "/vite.svg";
+  const imageUrl = artist.images?.[0]?.url ?? SPOTIFY_ICON;
 
   return (
     <a
